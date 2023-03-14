@@ -26,29 +26,47 @@
         );
         const [value, setValue] = React.useState('');
         const [result, setResult] = React.useState('');
-
+        const inputRef = React.useRef(null);
+        const onChangeInput = (event) => {
+          setValue(event.target.value);
+        };
+        const onSubmitForm = (event) => {
+          event.preventDefault();
+          if (first * second === parseInt(value)) {
+            setResult('정답! ' + value);
+            setFirst(Math.ceil(Math.random() * 9));
+            setSecond(Math.ceil(Math.random() * 9));
+            setValue('');
+          } else {
+            setResult('땡!');
+            setValue('');
+          }
+          inputRef.current.focus();
+        };
         return (
           <div>
             <div>
-              {props.first}곱하기 {props.second}는?
+              {first}곱하기 {second}는?
             </div>
-            <form action="">
-              <input type="number" />
+            <form onSubmit={onSubmitForm}>
+              <input
+                ref={inputRef}
+                type="number"
+                value={value}
+                onChange={onChangeInput}
+              />
               <button>입력하기</button>
             </form>
-            <div>결과 : {props.result}</div>
+            <div>결과 : {result}</div>
           </div>
         );
       }
     </script>
     <script type="text/babel">
-      const [first, setFirst] = React.useState(Math.ceil(Math.random() * 9));
-      const [second, setSecond] = React.useState(Math.ceil(Math.random() * 9));
-      const [result, setResult] = React.useState('');
       // ReactDOM.render(<LikeButton />, document.querySelector('#root'));  react 17 버전 코드
       ReactDOM.createRoot(document.querySelector('#root')).render(
         <div>
-          <GuGuDan first={first} second={second} result={result} />
+          <GuGuDan />
         </div>
       ); // react 18버전 코드
     </script>
