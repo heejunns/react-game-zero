@@ -29,7 +29,43 @@
             result: '',
           };
         }
-
+        onSubmitForm = (event) => {
+          event.preventDefault();
+          const correct = parseInt(this.state.value);
+          if (
+            this.state.first * this.state.second ===
+            parseInt(this.state.value)
+          ) {
+            this.setState((prevState) => {
+              // 예전 스테이트
+              return {
+                result:
+                  this.state.first +
+                  '*' +
+                  this.state.second +
+                  '=' +
+                  prevState.value +
+                  ' 정답!',
+                first: Math.ceil(Math.random() * 9),
+                second: Math.ceil(Math.random() * 9),
+                value: '',
+              };
+            });
+          } else {
+            this.setState({
+              result: '오답!',
+              value: '',
+            });
+          }
+          this.input.focus();
+        };
+        onChange = (event) => {
+          this.setState({ value: event.target.value });
+        };
+        input;
+        onRefInput = (c) => {
+          this.input = c;
+        };
         render() {
           return (
             <React.Fragment>
@@ -38,40 +74,12 @@
                 {this.state.second}는?
               </div>
 
-              <form
-                onSubmit={(event) => {
-                  event.preventDefault();
-                  const correct = parseInt(this.state.value);
-                  if (
-                    this.state.first * this.state.second ===
-                    parseInt(this.state.value)
-                  ) {
-                    this.setState({
-                      result:
-                        this.state.first +
-                        '*' +
-                        this.state.second +
-                        '=' +
-                        this.state.value +
-                        ' 정답!',
-                      first: Math.ceil(Math.random() * 9),
-                      second: Math.ceil(Math.random() * 9),
-                      value: '',
-                    });
-                  } else {
-                    this.setState({
-                      result: '오답!',
-                      value: '',
-                    });
-                  }
-                }}
-              >
+              <form onSubmit={this.onSubmitForm}>
                 <input
+                  ref={this.onRefInput}
                   type="number"
                   value={this.state.value}
-                  onChange={(event) => {
-                    this.setState({ value: event.target.value });
-                  }}
+                  onChange={this.onChange}
                 />
                 <button>입력!</button>
               </form>
@@ -81,7 +89,6 @@
           );
         }
       }
-    
     </script>
     <script type="text/babel">
       // ReactDOM.render(<LikeButton />, document.querySelector('#root'));  react 17 버전 코드
