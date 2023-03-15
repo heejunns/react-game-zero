@@ -2,6 +2,7 @@ const React = require('react');
 const { useState, useRef } = React;
 
 function GuGuDan() {
+  // 구구단 함수 컴포넌트
   const [first, setFirst] = useState(Math.ceil(Math.random() * 9));
   const [second, setSecond] = useState(Math.ceil(Math.random() * 9));
   const [value, setValue] = useState('');
@@ -41,5 +42,4 @@ function GuGuDan() {
     </div>
   );
 }
-
 module.exports = GuGuDan;
